@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular-animate.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://angular-ui.github.com/bootstrap/ui-bootstrap-tpls-0.1.0.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="empdata.css">
+<script src="empdata.js"></script>
+</head>
+<body>
+<div class="container" ng-app="clientsApp" ng-controller="ClientsCtrl">
+  <div class="page-header">
+    <h1>Employee Data</h1>
+  </div>
+  
+  <hr />
+
+  <div class='row'>
+    <div class='col-sm-12'>
+      <form class='form-group form-inline'>
+        <input class='form-control' ng-model='search' id='search-input' placeholder='Search...' autocomplete='off' type='text'>
+      </form>
+
+      <div class="table-wrap">
+        <table class='table table-striped table-bordered table-hover' id='clientTable'>
+          <colgroup>
+            <col style="width: 1px" />
+            <col style="width: ;" />
+            <col style="width: 100px" />
+            <col style="width: 100px" />
+            <col style="width: 200px" />
+          </colgroup>
+          <thead class="thead-inverse">
+            <tr>
+              <th class="text-xs-center">First Name</th>
+              <th class="text-xs-center">Last Name</th>
+              <th class="text-xs-center">Age</th>
+              <th class="text-xs-center">Employer</th>
+              <th class="text-xs-center">Joining Date</th>
+              <th class="text-xs-center">Location</th>
+              <th class="text-xs-center">Id</th>
+            </tr>
+          </thead>
+          <tbody ng-repeat='client in clients | filter:search'>
+            <tr>
+              <td class="text-xs-center">{{ client.firstName }}</td>
+              <td class="text-xs-center">{{ client.lastName }}</td>
+              <td class="text-xs-center">{{ client.age }}</td>
+              <td class="text-xs-center">{{ client.employer }}</td>
+              <td class="text-xs-center">{{ client.joiningDate }}</td>
+              <td class="text-xs-center">{{ client.location }}</td>
+              <td class="text-xs-center">{{ client.id }}</td>
+              <td class="text-xs-center">
+                <a class='btn btn-primary' href='' ng-click="edit(client)">Edit</a>
+                <a class='btn btn-danger' href='' ng-click='delete(client)'>Delete</a>
+              </td>
+            </tr>
+          </tbody>
+          
+        </table>
+      
+      </div>
+    
+      <div ng-show="showModal">
+      <div class="overlay"></div>
+      <div class="overlay-content">
+      <h5>Adding Client</h5>
+      <form name='clientForm' novalidate role='form'>
+        <div class='form-group'>
+          <label for='name'>First Name:</label>
+          <input class='form-control' ng-model='newClient.name' id='name' name='name' type='text' required>
+          <span class='help-block' ng-show='clientForm.name.$error.required'>Name is required</span>
+        </div>
+        <div class='form-group'>
+          <label for='age'>Last Name</label>
+          <input class='form-control' ng-model='newClient.age' id='age' name='age' type='number' required max='100' min='1'>
+          <span class='help-block' ng-show='clientForm.age.$error.required'>Age is required</span>
+          <span class='help-block' ng-show='clientForm.age.$error.min'>Age should be greater than 1</span>
+          <span class='help-block' ng-show='clientForm.age.$error.max'>Age should be lesser than 100</span>
+          <span class='help-block' ng-show='clientForm.age.$error.integer'>Age should be an integer</span>
+        </div>
+        <div class='form-group'>
+          <label for='percentage'>Percentage</label>
+          <input class='form-control' ng-model='newClient.percentage' id='percentage' name='percentage' type='number' required max='1' min='0'>
+          <span class='help-block' ng-show='clientForm.percentage.$error.required'>Percentage is required</span>
+          <span class='help-block' ng-show='clientForm.percentage.$error.min'>Percentage should be greater than 0</span>
+          <span class='help-block' ng-show='clientForm.percentage.$error.max'>Percentage should be lesser than 1</span>
+        </div>
+        <button class='btn btn-primary' ng-click='create()' ng-disabled='clientForm.$invalid'> Save </button>
+      </form>
+      </div>
+    </div>
+  </div>
+
+
+    </div>
+    
+</div>
+</body>
+</html>
